@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelPlay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#785aeb',
+                        'secondary': '#bbbfff',
+                        'accent': '#ffffff',
+                    },
+                    fontFamily: {
+                        'display': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #785aeb, #bbbfff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glassmorphism-card {
+            background: rgba(120, 90, 235, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(187, 191, 255, 0.15);
+        }
+        
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(120, 90, 235, 0.3);
+        }
+        
+        .glow-secondary {
+            box-shadow: 0 0 20px rgba(187, 191, 255, 0.2);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        
+        .scale-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .scale-hover:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(120, 90, 235, 0.2);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(120, 90, 235, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(120, 90, 235, 0.6); }
+        }
+        
+        .bg-animated {
+            background: linear-gradient(-45deg, #0a0a0f, #1a1a2e, #16213e, #0f0f23);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .text-shadow {
+            text-shadow: 0 0 20px rgba(120, 90, 235, 0.5);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(120, 90, 235, 0.25);
+        }
+        
+        .parallax-element {
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Small screen adjustments for better readability and performance */
+        @media (max-width: 640px) {
+            .bg-animated {
+                /* reduce background motion and darken slightly for contrast on small screens */
+                background: linear-gradient(-45deg, #07070b, #0f1220, #0b1020, #06060b);
+                background-size: 200% 200%;
+                animation-duration: 30s;
+            }
+
+            .floating { display: none; }
+
+            .glassmorphism, .glassmorphism-card {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(255,255,255,0.06);
+                backdrop-filter: blur(8px);
+            }
+
+            .text-shadow { text-shadow: none; }
+
+            h1, h2 { line-height: 1.02; }
+        }
+    </style>
+</head>
+<body class="bg-animated text-white overflow-x-hidden">
+
+    <!-- Floating Background Elements -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl floating"></div>
+        <div class="absolute top-1/2 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl floating" style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-primary/5 rounded-full blur-3xl floating" style="animation-delay: -4s;"></div>
+    </div>
+
+    
+    <!-- Simple Navigation -->
+    <nav class="fixed top-0 w-full z-50 glassmorphism">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2 sm:space-x-3 fade-in-up">
+                <div class="w-8 h-8 sm:w-10 sm:h-10">
+                    <span><img src="logo.png" alt="PixelPlay Logo" /></span>
+                </div>
+                <span class="text-lg sm:text-xl font-bold gradient-text">PixelPlay</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 fade-in-up stagger-1">
+                <a href="#home" class="hover:text-primary transition-all duration-300 font-medium text-sm lg:text-base">Home</a>
+                <a href="#problems" class="hover:text-primary transition-all duration-300 font-medium text-sm lg:text-base">Problems</a>
+                <a href="#rounds" class="hover:text-primary transition-all duration-300 font-medium text-sm lg:text-base">Rounds</a>
+                <a href="#scoreboard" class="hover:text-primary transition-all duration-300 font-medium text-sm lg:text-base">Live Score</a>
+                <a href="#about" class="hover:text-primary transition-all duration-300 font-medium text-sm lg:text-base">About Us</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation" class="md:hidden p-2 rounded-lg glassmorphism-card">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glassmorphism border-t border-white/10">
+            <div class="px-4 py-3 space-y-2">
+                <a href="#home" class="block px-3 py-2 hover:text-primary transition-colors font-medium rounded-lg hover:bg-white/5">Home</a>
+                <a href="#problems" class="block px-3 py-2 hover:text-primary transition-colors font-medium rounded-lg hover:bg-white/5">Problems</a>
+                <a href="#rounds" class="block px-3 py-2 hover:text-primary transition-colors font-medium rounded-lg hover:bg-white/5">Rounds</a>
+                <a href="#scoreboard" class="block px-3 py-2 hover:text-primary transition-colors font-medium rounded-lg hover:bg-white/5">Live Score</a>
+                <a href="#about" class="block px-3 py-2 hover:text-primary transition-colors font-medium rounded-lg hover:bg-white/5">About Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-16 sm:pt-20">
+        <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
+            <div class="fade-in-up">
+                <h1 class="text-5xl sm:text-7xl md:text-9xl font-black mb-6 sm:mb-8 tracking-tight">
+                    <span class="gradient-text text-shadow">PixelPlay</span>
+                </h1>
+            </div>
+            
+            <div class="fade-in-up stagger-1">
+                <div class="text-xl sm:text-2xl md:text-4xl mb-6 sm:mb-8 text-secondary font-light tracking-wide">
+                    UI/UX Design Competition 2025
+                </div>
+            </div>
+            
+            <div class="fade-in-up stagger-2">
+                <p class="text-base sm:text-lg text-white/80 mb-8 sm:mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                    3 Rounds • 180 Minutes • 60 Points Total<br>
+                    <span class="text-primary font-medium">Design. Innovate. Win.</span>
+                </p>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto mb-8 sm:mb-12 fade-in-up stagger-3">
+                <div class="glassmorphism-card rounded-xl sm:rounded-2xl p-4 sm:p-6 scale-hover">
+                    <div class="text-2xl sm:text-3xl font-bold text-primary mb-1 sm:mb-2">Round 1</div>
+                    <div class="text-xs sm:text-sm text-secondary/80 font-medium">Ideate • 30min • 10pts</div>
+                </div>
+                <div class="glassmorphism-card rounded-xl sm:rounded-2xl p-4 sm:p-6 scale-hover">
+                    <div class="text-2xl sm:text-3xl font-bold text-primary mb-1 sm:mb-2">Round 2</div>
+                    <div class="text-xs sm:text-sm text-secondary/80 font-medium">Design • 120min • 40pts</div>
+                </div>
+                <div class="glassmorphism-card rounded-xl sm:rounded-2xl p-4 sm:p-6 scale-hover">
+                    <div class="text-2xl sm:text-3xl font-bold text-primary mb-1 sm:mb-2">Round 3</div>
+                    <div class="text-xs sm:text-sm text-secondary/80 font-medium">Pitch • 30min • 10pts</div>
+                </div>
+            </div>
+
+            <div class="fade-in-up stagger-4 flex flex-wrap justify-center gap-4">
+                <a href="#rounds" class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl sm:rounded-2xl hover-lift pulse-glow transition-all duration-300 text-sm sm:text-base">
+                    <span>View Round Details</span>
+                    <svg class="ml-2 w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM STATEMENTS SECTION -->
+    <section id="problems" class="py-8 sm:py-16 lg:py-20 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-6 sm:mb-12 lg:mb-16 fade-in-up">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-6 tracking-tight">
+                    <span class="gradient-text">Problem Statements</span>
+                </h2>
+                <p class="text-sm sm:text-lg md:text-xl text-secondary/80 font-light max-w-3xl mx-auto">
+                    Choose one problem statement for your team to solve
+                </p>
+            </div>
+
+            <!-- Coming Soon Banner -->
+            <div class="mb-4 sm:mb-8 glassmorphism rounded-xl sm:rounded-2xl p-3 sm:p-6 border-2 border-primary/40 bg-gradient-to-r from-primary/10 to-secondary/10 fade-in-up">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center sm:text-left">
+                    <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0 glow-primary">
+                        <svg class="w-5 h-5 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-xl font-bold text-white mb-1">Problems Revealed at Round 1!</h3>
+                        <p class="text-xs sm:text-base text-secondary/80">
+                            Released at the <span class="text-primary font-semibold">start of Round 1</span> during the event.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem Cards Grid with Blur Overlay -->
+            <div class="relative">
+                <!-- Mobile: Compact Locked Preview -->
+                <div class="block lg:hidden glassmorphism rounded-xl p-8 backdrop-blur-md bg-black/30 border-2 border-primary/40">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">3 Problem Statements</h3>
+                        <p class="text-sm text-secondary/90 mb-4">
+                            Will be revealed at Round 1
+                        </p>
+                        <div class="flex justify-center gap-2 mb-3">
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center text-primary font-bold">01</div>
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center text-primary font-bold">02</div>
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center text-primary font-bold">03</div>
+                        </div>
+                        <p class="text-xs text-white/60">
+                            Choose your challenge during the event
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Desktop: Full Preview with Blur -->
+                <div class="hidden lg:block relative">
+                    <!-- Blur Overlay -->
+                    <div class="absolute inset-0 backdrop-blur-md bg-black/30 rounded-3xl z-10 flex items-center justify-center">
+                        <div class="text-center px-4">
+                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-4xl font-bold text-white mb-3">Coming Soon</h3>
+                            <p class="text-lg text-secondary/90 font-medium">
+                                Available at Round 1 Start
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Blurred Problem Cards Grid -->
+                    <div class="grid grid-cols-3 gap-8 blur-sm opacity-50 pointer-events-none">
+                <!-- Problem Statement 1 -->
+                <div class="glassmorphism-card rounded-xl sm:rounded-3xl p-4 sm:p-8 hover-lift fade-in-up stagger-1 border-2 border-primary/40">
+                    <div class="flex items-center justify-between mb-3 sm:mb-6">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-secondary rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-2xl font-bold text-white glow-primary">
+                            01
+                        </div>
+                        <div class="px-2 py-1 sm:px-4 sm:py-1.5 bg-primary/20 rounded-full">
+                            <span class="text-xs sm:text-sm font-semibold text-primary">Digital Innovation</span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4">Smart Campus Solutions</h3>
+                    <p class="text-xs sm:text-base text-secondary/80 leading-relaxed mb-3 sm:mb-6">
+                        Design a digital solution to improve campus life for students. Focus on navigation, 
+                        resource booking, or student collaboration.
+                    </p>
+                    <div class="space-y-1.5 sm:space-y-3">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">User-friendly interface</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Real-world problem solving</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Mobile-first approach</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem Statement 2 -->
+                <div class="glassmorphism-card rounded-xl sm:rounded-3xl p-4 sm:p-8 hover-lift fade-in-up stagger-2 border-2 border-primary/40">
+                    <div class="flex items-center justify-between mb-3 sm:mb-6">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-secondary rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-2xl font-bold text-white glow-primary">
+                            02
+                        </div>
+                        <div class="px-2 py-1 sm:px-4 sm:py-1.5 bg-primary/20 rounded-full">
+                            <span class="text-xs sm:text-sm font-semibold text-primary">Health & Wellness</span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4">Mental Health Support</h3>
+                    <p class="text-xs sm:text-base text-secondary/80 leading-relaxed mb-3 sm:mb-6">
+                        Create a platform for students to manage mental health. Include mood tracking, 
+                        meditation guides, or counselor connections.
+                    </p>
+                    <div class="space-y-1.5 sm:space-y-3">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Empathetic design</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Privacy & security focused</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Accessible interface</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem Statement 3 -->
+                <div class="glassmorphism-card rounded-xl sm:rounded-3xl p-4 sm:p-8 hover-lift fade-in-up stagger-3 border-2 border-primary/40">
+                    <div class="flex items-center justify-between mb-3 sm:mb-6">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-secondary rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-2xl font-bold text-white glow-primary">
+                            03
+                        </div>
+                        <div class="px-2 py-1 sm:px-4 sm:py-1.5 bg-primary/20 rounded-full">
+                            <span class="text-xs sm:text-sm font-semibold text-primary">Sustainability</span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4">Eco-Friendly Tracker</h3>
+                    <p class="text-xs sm:text-base text-secondary/80 leading-relaxed mb-3 sm:mb-6">
+                        Build an app to track and reduce environmental impact. Include carbon footprint 
+                        tracking, sustainable habits, or community challenges.
+                    </p>
+                    <div class="space-y-1.5 sm:space-y-3">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Gamification & engagement</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Data visualization</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-white/70">Social impact focus</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Important Note -->
+            <div class="mt-4 sm:mt-12 glassmorphism rounded-xl sm:rounded-2xl p-3 sm:p-6 border border-primary/30 fade-in-up stagger-4">
+                <div class="flex items-start gap-2 sm:gap-4">
+                    <svg class="w-4 h-4 sm:w-6 sm:h-6 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <div>
+                        <h4 class="text-sm sm:text-lg font-bold text-white mb-1 sm:mb-2">Important Guidelines</h4>
+                        <p class="text-xs sm:text-sm text-secondary/80 leading-relaxed">
+                            Each team must select <span class="text-primary font-semibold">one problem statement</span> at the beginning of the competition. 
+                            Your solution will be evaluated based on creativity, usability, and how well it addresses the chosen problem.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROUNDS SECTION -->
+    <section id="rounds" class="py-20 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-5xl md:text-6xl font-black mb-6 tracking-tight">
+                    <span class="gradient-text">Round Details</span>
+                </h2>
+                <p class="text-xl text-secondary/80 font-light">Complete scoring breakdown & evaluation criteria</p>
+            </div>
+
+            <!-- Rounds Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Round 1 -->
+                <div class="glassmorphism-card rounded-3xl p-8 hover-lift fade-in-up stagger-1">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 glow-primary">1</div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">Ideate It</h3>
+                        <p class="text-secondary/70 mb-6 font-medium">30 minutes</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Creativity</span>
+                                <span class="font-bold text-primary">5 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Problem Clarity</span>
+                                <span class="font-bold text-primary">5 pts</span>
+                            </div>
+                            <div class="border-t border-white/10 pt-3 mt-4">
+                                <div class="flex justify-between font-bold text-primary text-lg">
+                                    <span>Total</span>
+                                    <span>10 pts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round 2 -->
+                <div class="glassmorphism-card rounded-3xl p-8 hover-lift fade-in-up stagger-2">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 glow-primary">2</div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">Design It</h3>
+                        <p class="text-secondary/70 mb-6 font-medium">120 minutes</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">UI Quality</span>
+                                <span class="font-bold text-primary">20 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Usability</span>
+                                <span class="font-bold text-primary">10 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Consistency</span>
+                                <span class="font-bold text-primary">10 pts</span>
+                            </div>
+                            <div class="border-t border-white/10 pt-3 mt-4">
+                                <div class="flex justify-between font-bold text-primary text-lg">
+                                    <span>Total</span>
+                                    <span>40 pts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round 3 -->
+                <div class="glassmorphism-card rounded-3xl p-8 hover-lift fade-in-up stagger-3">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 glow-primary">3</div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">Pitch It</h3>
+                        <p class="text-secondary/70 mb-6 font-medium">30 minutes</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Presentation</span>
+                                <span class="font-bold text-primary">5 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center glassmorphism rounded-xl px-4 py-2">
+                                <span class="text-white/80">Innovation</span>
+                                <span class="font-bold text-primary">5 pts</span>
+                            </div>
+                            <div class="border-t border-white/10 pt-3 mt-4">
+                                <div class="flex justify-between font-bold text-primary text-lg">
+                                    <span>Total</span>
+                                    <span>10 pts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Scoring Rubric -->
+            <div class="glassmorphism-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 fade-in-up stagger-4">
+                <h3 class="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8">Complete Scoring Rubric</h3>
+                
+                <!-- Mobile Card View -->
+                <div class="block lg:hidden space-y-4">
+                    <!-- Round 1 Mobile Card -->
+                    <div class="glassmorphism rounded-xl p-4 border-2 border-primary/40">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">Round 1</h4>
+                                <p class="text-xs text-secondary/70">30 minutes</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-primary">10</div>
+                                <div class="text-xs text-secondary/70">points</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Creativity</span>
+                                    <span class="text-primary font-bold text-sm">5 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">How unique, fresh, and interesting the idea is</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Problem Clarity</span>
+                                    <span class="text-primary font-bold text-sm">5 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Clear understanding of user problem and target audience</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Round 2 Mobile Card -->
+                    <div class="glassmorphism rounded-xl p-4 border-2 border-primary/40">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">Round 2</h4>
+                                <p class="text-xs text-secondary/70">120 minutes</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-primary">40</div>
+                                <div class="text-xs text-secondary/70">points</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">UI Quality</span>
+                                    <span class="text-primary font-bold text-sm">20 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Visual appeal, layout balance, and color harmony</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Usability</span>
+                                    <span class="text-primary font-bold text-sm">10 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Simplicity and intuitiveness of navigation</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Consistency</span>
+                                    <span class="text-primary font-bold text-sm">10 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Uniformity of design elements and spacing</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Round 3 Mobile Card -->
+                    <div class="glassmorphism rounded-xl p-4 border-2 border-primary/40">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h4 class="text-lg font-bold text-primary">Round 3</h4>
+                                <p class="text-xs text-secondary/70">30 minutes</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-primary">10</div>
+                                <div class="text-xs text-secondary/70">points</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Presentation</span>
+                                    <span class="text-primary font-bold text-sm">5 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Well-structured explanation of concept</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="font-semibold text-white text-sm">Innovation</span>
+                                    <span class="text-primary font-bold text-sm">5 pts</span>
+                                </div>
+                                <p class="text-xs text-white/60">Creativity in approach and features</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Mobile Card -->
+                    <div class="glassmorphism rounded-xl p-4 bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/40">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-xl font-bold text-white">Grand Total</h4>
+                                <p class="text-xs text-secondary/80">All rounds combined</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-bold text-white">60</div>
+                                <div class="text-xs text-secondary/80">points</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Card Grid View -->
+                <div class="hidden lg:block">
+                    <!-- Rounds Grid (3 columns) -->
+                    <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Round 1 Desktop Card -->
+                        <div class="glassmorphism rounded-xl p-6 border-2 border-primary/40 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary">Round 1</h4>
+                                    <p class="text-sm text-secondary/70">30 minutes</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-primary">10</div>
+                                    <div class="text-xs text-secondary/70">points</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Creativity</span>
+                                        <span class="text-primary font-bold">5 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">How unique, fresh, and interesting the idea is</p>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Problem Clarity</span>
+                                        <span class="text-primary font-bold">5 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Clear understanding of user problem and target audience</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Round 2 Desktop Card -->
+                        <div class="glassmorphism rounded-xl p-6 border-2 border-primary/40 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary">Round 2</h4>
+                                    <p class="text-sm text-secondary/70">120 minutes</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-primary">40</div>
+                                    <div class="text-xs text-secondary/70">points</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">UI Quality</span>
+                                        <span class="text-primary font-bold">20 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Visual appeal, layout balance, and color harmony</p>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Usability</span>
+                                        <span class="text-primary font-bold">10 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Simplicity and intuitiveness of navigation</p>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Consistency</span>
+                                        <span class="text-primary font-bold">10 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Uniformity of design elements and spacing</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Round 3 Desktop Card -->
+                        <div class="glassmorphism rounded-xl p-6 border-2 border-primary/40 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary">Round 3</h4>
+                                    <p class="text-sm text-secondary/70">30 minutes</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-primary">10</div>
+                                    <div class="text-xs text-secondary/70">points</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Presentation</span>
+                                        <span class="text-primary font-bold">5 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Well-structured explanation of concept</p>
+                                </div>
+                                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold text-white">Innovation</span>
+                                        <span class="text-primary font-bold">5 pts</span>
+                                    </div>
+                                    <p class="text-sm text-white/60">Creativity in approach and features</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grand Total Card (Full Width) -->
+                    <div class="glassmorphism rounded-xl p-6 bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/40">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-2xl font-bold text-white">Grand Total</h4>
+                                <p class="text-sm text-secondary/80">All rounds combined</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-5xl font-bold text-white">60</div>
+                                <div class="text-sm text-secondary/80">points</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE SCOREBOARD SECTION -->
+    <section id="scoreboard" class="py-12 sm:py-16 lg:py-20 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16 fade-in-up">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-black mb-4 sm:mb-6 tracking-tight">
+                    <span class="gradient-text">Live Scoreboard</span>
+                </h2>
+                <p class="text-lg sm:text-xl text-secondary/80 font-light">Real-time scores updated after each round</p>
+            </div>
+
+            <!-- Mobile Scoreboard - Card Layout -->
+            <div class="block lg:hidden space-y-4 fade-in-up stagger-1" id="mobile-scoreboard-cards">
+                <!-- Mobile cards will be populated here -->
+                <div class="glassmorphism-card rounded-xl p-4 text-center">
+                    <div class="animate-pulse text-secondary/60">Loading scores...</div>
+                </div>
+            </div>
+
+            <!-- Desktop Scoreboard - Table Layout -->
+            <div class="hidden lg:block glassmorphism-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 fade-in-up stagger-1">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-base lg:text-lg">
+                        <thead class="text-primary border-b border-white/10">
+                            <tr>
+                                <th class="py-3 lg:py-4 text-center font-semibold">Rank</th>
+                                <th class="py-3 lg:py-4 text-left font-semibold">Team Name</th>
+                                <th class="py-3 lg:py-4 text-center font-semibold">Round 1</th>
+                                <th class="py-3 lg:py-4 text-center font-semibold">Round 2</th>
+                                <th class="py-3 lg:py-4 text-center font-semibold">Round 3</th>
+                                <th class="py-3 lg:py-4 text-center font-semibold">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreTable" class="text-white/90">
+                            <tr><td colspan="6" class="text-center py-8 lg:py-12 text-secondary/60">
+                                <div class="animate-pulse">Loading scores...</div>
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-center mt-6 sm:mt-8 fade-in-up stagger-2">
+                <div class="glassmorphism rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 inline-block">
+                    <p class="text-secondary/70 text-xs sm:text-sm font-medium">
+                        Scores are updated live during the competition
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-12 sm:py-16 lg:py-20 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+            <div class="mb-12 sm:mb-16 fade-in-up">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-black mb-4 sm:mb-6 tracking-tight">
+                    <span class="gradient-text">About Us</span>
+                </h2>
+            </div>
+
+            <!-- Team Profile Cards -->
+            <div class="mb-8 sm:mb-12 fade-in-up stagger-3">
+                <h3 class="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Meet the Team</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Profile Card 1 -->
+                    <div class="glassmorphism-card rounded-2xl p-6 hover-lift text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4 glow-primary">
+                            <span class="text-3xl sm:text-4xl font-bold text-white">👤</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Ms Akila Mohan</h4>
+                        <p class="text-primary text-sm font-semibold mb-3">Faculty Coordinator</p>
+                        <a href="https://www.linkedin.com/in/akilamohan/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-lg text-white/90 text-xs font-medium transition-all duration-300 hover:scale-105">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+
+                    <!-- Profile Card 2 -->
+                    <div class="glassmorphism-card rounded-2xl p-6 hover-lift text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4 glow-primary">
+                            <span class="text-3xl sm:text-4xl font-bold text-white">👤</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Bala Saravanan K</h4>
+                        <p class="text-primary text-sm font-semibold mb-3">Student Coordinator</p>
+                        <a href="https://www.linkedin.com/in/bala-saravanan-k-421a13325/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-lg text-white/90 text-xs font-medium transition-all duration-300 hover:scale-105">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+
+                    <!-- Profile Card 3 -->
+                    <div class="glassmorphism-card rounded-2xl p-6 hover-lift text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4 glow-primary">
+                            <span class="text-3xl sm:text-4xl font-bold text-white">👤</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Haridharshini J</h4>
+                        <p class="text-primary text-sm font-semibold mb-3">Student Coordinator</p>
+                        <a href="https://www.linkedin.com/in/haridharshini-jayaraj-45a704306/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-lg text-white/90 text-xs font-medium transition-all duration-300 hover:scale-105">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+
+                    <!-- Profile Card 4 -->
+                    <div class="glassmorphism-card rounded-2xl p-6 hover-lift text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4 glow-primary">
+                            <span class="text-3xl sm:text-4xl font-bold text-white">👤</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Elaiyavan K</h4>
+                        <p class="text-primary text-sm font-semibold mb-3">Student Coordinator</p>
+                        <a href="https://www.linkedin.com/in/elaiyavan-kalyanakumar-29a7b736a/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-lg text-white/90 text-xs font-medium transition-all duration-300 hover:scale-105">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                       
+            <!-- Organized By -->
+            <div class="glassmorphism-card rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-8 sm:mb-12 fade-in-up stagger-2">
+                <div class="w-24 h-24   flex items-center justify-center mx-auto  ">
+                <span class="text-xl sm:text-2xl"><img src="logo.png" alt="PixelPlay Logo" /></span>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-primary mb-3 sm:mb-4">Organized By</h3>
+                <p class="text-white/80 text-sm sm:text-base leading-relaxed font-light">
+                <strong class="text-secondary text-lg">Tech Society</strong><br>
+                <span class="text-white/60">Saveetha Engineering College</span><br>
+                </p>
+            </div>
+
+            <div class="glassmorphism rounded-xl sm:rounded-2xl px-6 sm:px-8 py-4 sm:py-6 inline-block fade-in-up stagger-4">
+                <div class="text-secondary/70 text-xs sm:text-sm font-light space-y-2">
+                    <p class="text-xs">© 2025 PixelPlay • Tech Society • Saveetha Engineering College</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            animatedElements.forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+
+        // Parallax effect for background elements
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.parallax-element').forEach((element, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Live scoreboard functionality
+        async function fetchScores() {
+            // Try loading a local scores.json as the default source. If not available, fallback gracefully.
+            try {
+                let data = [];
+                try {
+                    const response = await fetch('https://sheetdb.io/api/v1/eqyqaaf799243', { cache: 'no-store' });
+                    if (response.ok) {
+                        data = await response.json();
+                    } else {
+                        console.warn('scores.json not found or returned error. Using empty dataset.');
+                        data = [];
+                    }
+                } catch (fetchErr) {
+                    console.warn('Fetch failed for scores.json:', fetchErr);
+                    data = [];
+                }
+
+                const teams = Array.isArray(data) ? data.map(row => ({
+                    name: row.Team || row.name || 'Unknown Team',
+                    r1: Number(row.Round1 ?? row.r1) || 0,
+                    r2: Number(row.Round2 ?? row.r2) || 0,
+                    r3: Number(row.Round3 ?? row.r3) || 0,
+                    college: row.college || row.institution || ''
+                })) : [];
+
+                renderTable(teams);
+                updateLastRefreshTime();
+            } catch (error) {
+                console.error('Error loading scores:', error);
+                renderTable([]);
+            }
+        }
+
+        // Update the last refresh timestamp
+        function updateLastRefreshTime() {
+            const lastUpdateElement = document.getElementById('lastUpdate');
+            if (lastUpdateElement) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true 
+                });
+                lastUpdateElement.textContent = timeString;
+            }
+        }
+
+        // Single robust renderer for both desktop table and mobile cards
+        function renderTable(teams) {
+            const tableBody = document.getElementById('scoreTable');
+            const mobileCards = document.getElementById('mobile-scoreboard-cards');
+
+            if (!tableBody) return;
+
+            if (!teams || teams.length === 0) {
+                tableBody.innerHTML = `
+                    <tr><td colspan="6" class="text-center text-yellow-400 py-8">
+                        <div class="glassmorphism rounded-xl p-4 inline-block">No team data available yet</div>
+                    </td></tr>`;
+
+                if (mobileCards) {
+                    mobileCards.innerHTML = `<div class="glassmorphism-card rounded-xl p-4 text-center"><div class="text-secondary/60">No team data available</div></div>`;
+                }
+                return;
+            }
+
+            teams.forEach(t => { t.total = (t.r1 ?? 0) + (t.r2 ?? 0) + (t.r3 ?? 0); });
+            const sorted = teams.slice().sort((a, b) => (b.total ?? 0) - (a.total ?? 0));
+
+            // Desktop table
+            tableBody.innerHTML = '';
+            sorted.forEach((t, i) => {
+                const medals = ['🥇','🥈','🥉'];
+                const rankClass = i < 3 ? 'text-primary font-bold' : 'text-secondary/70';
+                const displayRank = medals[i] || `#${i + 1}`;
+
+                tableBody.innerHTML += `
+                    <tr class="text-center hover:bg-white/5 transition-all duration-300 border-b border-white/5">
+                        <td class="py-4 ${rankClass}">${displayRank}</td>
+                        <td class="py-4 font-semibold text-left text-white">${t.name || 'Unknown Team'}</td>
+                        <td class="py-4 text-secondary">${t.r1 ?? 0}</td>
+                        <td class="py-4 text-secondary">${t.r2 ?? 0}</td>
+                        <td class="py-4 text-secondary">${t.r3 ?? 0}</td>
+                        <td class="py-4 font-bold text-primary text-lg">${t.total ?? 0}</td>
+                    </tr>`;
+            });
+
+            // Mobile cards
+            if (mobileCards) {
+                mobileCards.innerHTML = '';
+                sorted.forEach((t, index) => {
+                    const position = index + 1;
+                    let positionIcon = '';
+                    let positionColor = '';
+                    if (position === 1) { positionIcon = '🥇'; positionColor = 'text-yellow-400'; }
+                    else if (position === 2) { positionIcon = '🥈'; positionColor = 'text-gray-300'; }
+                    else if (position === 3) { positionIcon = '🥉'; positionColor = 'text-amber-600'; }
+                    else { positionIcon = `#${position}`; positionColor = 'text-primary'; }
+
+                    const card = document.createElement('div');
+                    card.className = 'glassmorphism-card rounded-xl p-4 fade-in-up scale-hover';
+                    card.style.animationDelay = `${index * 0.06}s`;
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl font-bold ${positionColor}">${positionIcon}</span>
+                                <div>
+                                    <h3 class="font-bold text-white text-sm">${t.name || 'Unknown Team'}</h3>
+                                    <p class="text-secondary/60 text-xs">${t.college || ''}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-primary">${t.total ?? 0}</div>
+                                <div class="text-xs text-secondary/60">points</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-white/5 rounded-lg p-2 text-center">
+                                <div class="text-xs text-secondary/60">Round 1</div>
+                                <div class="font-medium text-white text-sm">${t.r1 ?? 0}/10</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-2 text-center">
+                                <div class="text-xs text-secondary/60">Round 2</div>
+                                <div class="font-medium text-white text-sm">${t.r2 ?? 0}/40</div>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-2 text-center">
+                                <div class="text-xs text-secondary/60">Round 3</div>
+                                <div class="font-medium text-white text-sm">${t.r3 ?? 0}/10</div>
+                            </div>
+                        </div>`;
+
+                    mobileCards.appendChild(card);
+                });
+            }
+
+            console.log(`Rendered ${sorted.length} teams successfully`);
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            // Initial fetch
+            fetchScores();
+
+            // Auto-refresh scores every 30 seconds
+            setInterval(() => {
+                fetchScores();
+                console.log('Scoreboard refreshed automatically');
+            }, 30000); // 30 seconds
+
+            // Mobile menu toggle functionality
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            
+            if (btn && menu) {
+                // Toggle menu on button click
+                btn.addEventListener('click', () => {
+                    const expanded = btn.getAttribute('aria-expanded') === 'true';
+                    btn.setAttribute('aria-expanded', String(!expanded));
+                    menu.classList.toggle('hidden');
+                });
+
+                // Close menu when clicking on any mobile menu link
+                const mobileLinks = menu.querySelectorAll('a[href^="#"]');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // Trigger initial animations
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-up').forEach(el => el.style.animationPlayState = 'running');
+            }, 100);
+        });
+
+        // Add scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', `${scrollProgress}%`);
+        });
+    </script>
+</body>
+</html>
