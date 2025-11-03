@@ -1302,12 +1302,6 @@
             // Initial fetch
             fetchScores();
 
-            // Auto-refresh scores every 30 seconds
-            setInterval(() => {
-                fetchScores();
-                console.log('Scoreboard refreshed automatically');
-            }, 30000); // 30 seconds
-
             // Mobile menu toggle functionality
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
