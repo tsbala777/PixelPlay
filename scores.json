@@ -15,13 +15,13 @@
 	{
 		"Team": "UXcellence",
 		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 22,
+		"Round3": 6
 	},
 	{
 		"Team": "Pixel Pirates",
 		"Round1": 9,
-		"Round2": 29,
+		"Round2": 32,
 		"Round3": 9
 	},
 	{
@@ -39,7 +39,7 @@
 	{
 		"Team": "UI CRAFTERS",
 		"Round1": 8,
-		"Round2": 30,
+		"Round2": 29,
 		"Round3": 9
 	},
 	{
@@ -61,16 +61,10 @@
 		"Round3": 8
 	},
 	{
-		"Team": "JokerPanda",
-		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
-	},
-	{
 		"Team": "Pixel pioneers",
 		"Round1": 9,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 29,
+		"Round3": 9
 	},
 	{
 		"Team": "printf(\"we losst\");",
