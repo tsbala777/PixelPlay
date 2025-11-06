@@ -1,0 +1,39 @@
+
+[
+	{
+		"Team": "Design Mavericks",
+		"Round1": 0,
+		"Round2": 30,
+		"Round3": 8
+	},
+	{
+		"Team": "Pixel Pioneers",
+		"Round1": 9,
+		"Round2": 28,
+		"Round3": 8
+	},
+	{
+		"Team": "UX Ninjas",
+		"Round1": 7,
+		"Round2": 26,
+		"Round3": 8
+	},
+	{
+		"Team": "Color Theory",
+		"Round1": 6,
+		"Round2": 25,
+		"Round3": 7
+	},
+	{
+		"Team": "Flow Masters",
+		"Round1": 5,
+		"Round2": 18,
+		"Round3": 7
+	},
+	{
+		"Team": "Wireframe Crew",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	}
+]
