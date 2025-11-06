@@ -77,6 +77,12 @@
 		"Round1": 0,
 		"Round2": 0,
 		"Round3": 0
+	},
+	{
+		"Team": "printf(\"we losst\");",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	}
 
 ]
