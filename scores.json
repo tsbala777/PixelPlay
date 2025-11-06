@@ -3,8 +3,8 @@
 	{
 		"Team": "Team mass",
 		"Round1": 10,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 37,
+		"Round3": 10
 	},
 	{
 		"Team": "Figma stars",
@@ -69,8 +69,8 @@
 	{
 		"Team": "printf(\"we losst\");",
 		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 30,
+		"Round3": 10
 	},
 	{
 		"Team": "ctrl+alt+del",
