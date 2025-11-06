@@ -2,61 +2,55 @@
 [
 	{
 		"Team": "Team mass",
-		"Round1": 0,
-		"Round2": 0,
-		"Round3": 0
-	},
-	{
-		"Team": "Cogni Crew",
-		"Round1": 0,
+		"Round1": 10,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Figma stars",
-		"Round1": 0,
+		"Round1": 7,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "UXcellence",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Pixel Pirates",
-		"Round1": 0,
+		"Round1": 9,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "White Walkers",
-		"Round1": 0,
+		"Round1": 7,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Virtual Warriors",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "UI CRAFTERS",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Campus Flow",
-		"Round1": 0,
+		"Round1": 7,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Knight wakers",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
@@ -68,25 +62,25 @@
 	},
 	{
 		"Team": "JokerPanda",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "Pixel pioneers",
-		"Round1": 0,
+		"Round1": 9,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "printf(\"we losst\");",
-		"Round1": 0,
+		"Round1": 8,
 		"Round2": 0,
 		"Round3": 0
 	},
 	{
 		"Team": "ctrl+alt+del",
-		"Round1": 0,
+		"Round1": 7,
 		"Round2": 0,
 		"Round3": 0
 	}
