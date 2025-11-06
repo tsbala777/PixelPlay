@@ -9,8 +9,8 @@
 	{
 		"Team": "Figma stars",
 		"Round1": 7,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 28,
+		"Round3": 9
 	},
 	{
 		"Team": "UXcellence",
@@ -21,44 +21,44 @@
 	{
 		"Team": "Pixel Pirates",
 		"Round1": 9,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 29,
+		"Round3": 9
 	},
 	{
 		"Team": "White Walkers",
 		"Round1": 7,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 25,
+		"Round3": 6
 	},
 	{
 		"Team": "Virtual Warriors",
 		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 26,
+		"Round3": 7
 	},
 	{
 		"Team": "UI CRAFTERS",
 		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 30,
+		"Round3": 9
 	},
 	{
 		"Team": "Campus Flow",
 		"Round1": 7,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 26,
+		"Round3": 7
 	},
 	{
 		"Team": "Knight wakers",
 		"Round1": 8,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 36,
+		"Round3": 10
 	},
 	{
 		"Team": "A^3",
-		"Round1": 0,
-		"Round2": 0,
-		"Round3": 0
+		"Round1": 7,
+		"Round2": 27,
+		"Round3": 8
 	},
 	{
 		"Team": "JokerPanda",
@@ -81,8 +81,8 @@
 	{
 		"Team": "ctrl+alt+del",
 		"Round1": 7,
-		"Round2": 0,
-		"Round3": 0
+		"Round2": 32,
+		"Round3": 9
 	}
 
 ]
