@@ -83,6 +83,12 @@
 		"Round1": 0,
 		"Round2": 0,
 		"Round3": 0
+	},
+	{
+		"Team": "ctrl+alt+del",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	}
 
 ]
