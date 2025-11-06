@@ -1,39 +1,82 @@
 
 [
 	{
-		"Team": "Design Mavericks",
+		"Team": "Team mass",
 		"Round1": 0,
-		"Round2": 30,
-		"Round3": 8
+		"Round2": 0,
+		"Round3": 0
 	},
 	{
-		"Team": "Pixel Pioneers",
-		"Round1": 9,
-		"Round2": 28,
-		"Round3": 8
+		"Team": "Cogni Crew",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	},
 	{
-		"Team": "UX Ninjas",
-		"Round1": 7,
-		"Round2": 26,
-		"Round3": 8
+		"Team": "Figma stars",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	},
 	{
-		"Team": "Color Theory",
-		"Round1": 6,
-		"Round2": 25,
-		"Round3": 7
+		"Team": "UXcellence",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	},
 	{
-		"Team": "Flow Masters",
-		"Round1": 5,
-		"Round2": 18,
-		"Round3": 7
+		"Team": "Pixel Pirates",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
 	},
 	{
-		"Team": "Wireframe Crew",
+		"Team": "White Walkers",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "Virtual Warriors",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "UI CRAFTERS",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "Campus Flow",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "Knight wakers",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "A^3",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "JokerPanda",
+		"Round1": 0,
+		"Round2": 0,
+		"Round3": 0
+	},
+	{
+		"Team": "Pixel pioneers",
 		"Round1": 0,
 		"Round2": 0,
 		"Round3": 0
 	}
+
 ]
